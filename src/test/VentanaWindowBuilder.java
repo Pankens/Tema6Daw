@@ -1,6 +1,7 @@
 package test;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -9,12 +10,21 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import java.awt.Font;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JScrollBar;
 import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import javax.swing.JComboBox;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 public class VentanaWindowBuilder extends JFrame {
 
@@ -22,6 +32,10 @@ public class VentanaWindowBuilder extends JFrame {
 	public static final String CANCELAR = "cancelar";
 	public static final String NEGRITA = "negrita";
 	public static final String CURSIVA = "cursiva";
+	public static final String COLOR_DEFAULT = "default";
+	public static final String COLOR_ROJO = "rojo";
+	public static final String COLOR_VERDE = "verde";
+	public static final String TIPO_LETRA = "letra";
 	private JPanel contentPane;
 	private JButton btnEnviar;
 	private JButton btnCancelar;
@@ -30,6 +44,12 @@ public class VentanaWindowBuilder extends JFrame {
 	private JTextArea textArea;
 	private JCheckBox checkCursiva;
 	private JCheckBox checkNegrita;
+	private JRadioButton bDefault;
+	private JRadioButton bRojo;
+	private JRadioButton bVerde;
+	private JComboBox comboBox;
+	private JSlider slider;
+	private JSpinner spinner;
 
 	/**
 	 * Launch the application.
@@ -53,6 +73,15 @@ public class VentanaWindowBuilder extends JFrame {
 	public VentanaWindowBuilder() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 531);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("New menu");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
+		mnNewMenu.add(mntmNewMenuItem);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -93,28 +122,70 @@ public class VentanaWindowBuilder extends JFrame {
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		scrollPane.setBounds(60, 138, 308, 71);
 		contentPane.add(scrollPane);
-		
+
 		checkCursiva = new JCheckBox("Cursiva");
 		checkCursiva.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 14));
 		checkCursiva.setBounds(60, 233, 97, 23);
 		checkCursiva.setActionCommand(VentanaWindowBuilder.CURSIVA);
 		contentPane.add(checkCursiva);
-		
+
 		checkNegrita = new JCheckBox("Negrita");
 		checkNegrita.setFont(new Font("Tahoma", Font.BOLD, 14));
 		checkNegrita.setBounds(188, 233, 97, 23);
 		checkNegrita.setActionCommand(VentanaWindowBuilder.NEGRITA);
 		contentPane.add(checkNegrita);
 
+		bDefault = new JRadioButton("Por defecto");
+		bDefault.setBounds(163, 287, 113, 23);
+		bDefault.setActionCommand(VentanaWindowBuilder.COLOR_DEFAULT);
+		contentPane.add(bDefault);
+
+		bRojo = new JRadioButton("Rojo");
+		bRojo.setBounds(60, 287, 53, 23);
+		bRojo.setActionCommand(VentanaWindowBuilder.COLOR_ROJO);
+		contentPane.add(bRojo);
+
+		bVerde = new JRadioButton("Verde");
+		bVerde.setActionCommand(VentanaWindowBuilder.COLOR_VERDE);
+		bVerde.setBounds(305, 287, 63, 23);
+		contentPane.add(bVerde);
+
+		ButtonGroup grupoRadio = new ButtonGroup();
+		grupoRadio.add(bVerde);
+		grupoRadio.add(bRojo);
+		grupoRadio.add(bDefault);
+
+		comboBox = new JComboBox();
+		comboBox.addItem("Serif");
+		comboBox.addItem("Arial");
+		comboBox.addItem("SansSerif");
+		comboBox.setBounds(173, 331, 63, 22);
+		contentPane.add(comboBox);
+		comboBox.setActionCommand(VentanaWindowBuilder.TIPO_LETRA);
+
+		slider = new JSlider(0, 40, textArea.getFont().getSize());
+		slider.setPaintLabels(true);
+		slider.setMajorTickSpacing(10);
+		slider.setMinorTickSpacing(2);
+		slider.setPaintTicks(true);
+		slider.setBounds(60, 381, 236, 45);
+		contentPane.add(slider);
+
+		spinner = new JSpinner(new SpinnerNumberModel(textArea.getFont().getSize(), 0, 40, 1));
+		spinner.setBounds(305, 381, 63, 29);
+		contentPane.add(spinner);
+
 	}
 
-	
-	
-	
+	public String getNombreLetra() {
+		return (String) comboBox.getSelectedItem();
+
+	}
+
 	public String getTextField() {
 		return nombre.getText();
 	}
-	
+
 	public String getPasswordField() {
 		return contrasinal.getText();
 	}
@@ -136,28 +207,75 @@ public class VentanaWindowBuilder extends JFrame {
 		btnCancelar.addActionListener(c);
 		checkCursiva.addActionListener(c);
 		checkNegrita.addActionListener(c);
+		bDefault.addActionListener(c);
+		bRojo.addActionListener(c);
+		bVerde.addActionListener(c);
+		comboBox.addActionListener(c);
+		slider.addChangeListener(c);
+		spinner.addChangeListener(c);
 
 	}
-	
+
 	public boolean isSelectedCursiva() {
-		
+
 		return checkCursiva.isSelected();
-		
+
 	}
-	
+
 	public boolean isSelectedNegrita() {
-		
+
 		return checkNegrita.isSelected();
-		
+
 	}
-	
+
 	public void setTipoLetra(int tipoNC) {
-		
+
 		Font novaLetra = new Font("Tahoma", tipoNC, 12);
 		textArea.setFont(novaLetra);
-		
+
 	}
-	
+
+	public void setTipoLetra(String familia) {
+
+		Font novaLetra = new Font(familia, textArea.getFont().getStyle(), textArea.getFont().getSize());
+		textArea.setFont(novaLetra);
+	}
+
+	public void setColorTextArea(Color c) {
+
+		textArea.setForeground(c);
+
+	}
+
+	public void setTamanoLetra(int tamano) {
+
+		textArea.setFont(new Font(textArea.getFont().getFamily(), textArea.getFont().getStyle(), tamano));
+
+	}
+
+	public int getTamanoLetraSlider() {
+
+		return slider.getValue();
+
+	}
+
+	public void setValueSlider(int value) {
+
+		slider.setValue(value);
+
+	}
+
+	public int getTamanoLetraSpinner() {
+		return (int) spinner.getValue();
+
+	}
+
+	public void setValueSpinner(int value) {
+
+		spinner.setValue(value);
+
+	}
+
 	public void arrinca() {
 		this.setVisible(true);
 

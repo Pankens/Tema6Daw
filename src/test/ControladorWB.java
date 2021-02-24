@@ -4,7 +4,15 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ControladorWB implements ActionListener {
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import java.awt.Color;
+
+
+public class ControladorWB implements ActionListener, ChangeListener {
 	private VentanaWindowBuilder vista;
 	
 	public ControladorWB(VentanaWindowBuilder vista) {
@@ -40,9 +48,56 @@ public class ControladorWB implements ActionListener {
 			
 			break;
 			
+		case VentanaWindowBuilder.COLOR_DEFAULT:
+			
+			vista.setColorTextArea(null);
+			
+			break;
+			
+		case VentanaWindowBuilder.COLOR_ROJO:
+			
+			vista.setColorTextArea(Color.RED);
+			
+			break;
+			
+		case VentanaWindowBuilder.COLOR_VERDE:
+			
+			vista.setColorTextArea(Color.GREEN);
+			
+			break;
+			
+		case VentanaWindowBuilder.TIPO_LETRA:
+			
+			vista.setTipoLetra(vista.getNombreLetra());
+		
+		
+			
+		
+			break;
+		
 		default:
 			
 			break;
+		}
+		
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		
+		if (e.getSource() instanceof JSpinner) {
+			
+			vista.setTamanoLetra(vista.getTamanoLetraSpinner());
+			vista.setValueSlider(vista.getTamanoLetraSpinner());
+			
+		}
+		
+		
+		if (e.getSource() instanceof JSlider) {
+			
+			vista.setTamanoLetra(vista.getTamanoLetraSlider());
+			vista.setValueSpinner(vista.getTamanoLetraSlider());
+			
 		}
 		
 	}

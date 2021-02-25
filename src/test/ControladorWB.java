@@ -4,15 +4,18 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import java.awt.Color;
 
 
-public class ControladorWB implements ActionListener, ChangeListener {
+public class ControladorWB implements ActionListener, ChangeListener, ListSelectionListener {
 	private VentanaWindowBuilder vista;
 	
 	public ControladorWB(VentanaWindowBuilder vista) {
@@ -69,10 +72,32 @@ public class ControladorWB implements ActionListener, ChangeListener {
 		case VentanaWindowBuilder.TIPO_LETRA:
 			
 			vista.setTipoLetra(vista.getNombreLetra());
-		
-		
 			
 		
+			break;
+			
+		case VentanaWindowBuilder.SALIR:
+			
+			vista.dispose();
+			
+			break;
+			
+		case VentanaWindowBuilder.CAMBIARNOME:
+			
+			String nome = JOptionPane.showInputDialog(vista, "introduza nome");
+			
+			if (!(nome.equals(""))) {
+				
+				int resposta = JOptionPane.showConfirmDialog(vista, "Estas seguro?", "CONFIRMACION", JOptionPane.YES_NO_OPTION);
+				
+				if (resposta == JOptionPane.YES_OPTION) {
+					
+					vista.setTextField(nome);
+					JOptionPane.showMessageDialog(vista, "Indoruciu o nome: " + nome, "Ventana", JOptionPane.WARNING_MESSAGE);;
+					
+				}
+			}
+			
 			break;
 		
 		default:
@@ -100,6 +125,10 @@ public class ControladorWB implements ActionListener, ChangeListener {
 			
 		}
 		
+	}
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
 	}
 
 }

@@ -10,11 +10,17 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JList;
+
 import java.awt.Font;
+import java.util.ArrayList;
+
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JScrollBar;
 import javax.swing.JCheckBox;
@@ -22,6 +28,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -36,6 +43,8 @@ public class VentanaWindowBuilder extends JFrame {
 	public static final String COLOR_ROJO = "rojo";
 	public static final String COLOR_VERDE = "verde";
 	public static final String TIPO_LETRA = "letra";
+	public static final String SALIR = "aaa";
+	public static final String CAMBIARNOME = "www";
 	private JPanel contentPane;
 	private JButton btnEnviar;
 	private JButton btnCancelar;
@@ -50,6 +59,12 @@ public class VentanaWindowBuilder extends JFrame {
 	private JComboBox comboBox;
 	private JSlider slider;
 	private JSpinner spinner;
+	private JMenuItem opcionCambiarNome;
+	private JMenuItem opcionBorrar;
+	private JMenuItem opcionSalir;
+	private JTabbedPane tabbedPane;
+	private JList lista;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -74,18 +89,34 @@ public class VentanaWindowBuilder extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 531);
 		
+		///////// PANEL GENERAL /////////////////
+		
+		tabbedPane = new JTabbedPane (JTabbedPane.TOP);
+		
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
 		JMenu mnNewMenu = new JMenu("New menu");
 		menuBar.add(mnNewMenu);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
-		mnNewMenu.add(mntmNewMenuItem);
+		opcionBorrar = new JMenuItem("borrar datos");
+		opcionBorrar.setActionCommand(VentanaWindowBuilder.CANCELAR);
+		mnNewMenu.add(opcionBorrar);
+		
+		opcionCambiarNome = new JMenuItem("cambiar nome");
+		mnNewMenu.add(opcionCambiarNome);
+		opcionCambiarNome.setActionCommand(VentanaWindowBuilder.CAMBIARNOME);
+		
+		opcionSalir = new JMenuItem("salir");
+		opcionSalir.setActionCommand(VentanaWindowBuilder.SALIR);
+		mnNewMenu.add(opcionSalir);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
+		//setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		tabbedPane.addTab("General", contentPane);
 
 		JLabel labelNombre = new JLabel("Nombre");
 		labelNombre.setFont(new Font("Verdana", Font.BOLD, 11));
@@ -175,6 +206,39 @@ public class VentanaWindowBuilder extends JFrame {
 		spinner.setBounds(305, 381, 63, 29);
 		contentPane.add(spinner);
 
+		this.getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		
+		///////// FIN PANEL GENERAL /////////////////
+		
+		///////// PANEL SECUNDARIO /////////////////
+		
+		JPanel panelSecundario = new JPanel();
+		
+		tabbedPane.addTab("Secundario", panelSecundario);
+		panelSecundario.setLayout(null);
+		
+		String[] meses = {"Xaneiro", "Febreiro", "Marzo", "Mayo"};
+		
+		DefaultListModel modeloLista = new DefaultListModel();
+		
+		for (String mes : meses) {
+			modeloLista.addElement(mes);
+		}
+		
+		lista = new JList(modeloLista);
+		lista.setVisibleRowCount(3);
+		lista.setVisible(true);
+		
+		lista.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		JScrollPane scrollList = new JScrollPane(lista);
+		scrollList.setBounds(10, 10, 80, 60);
+		panelSecundario.add(scrollList);
+		
+		lblNewLabel = new JLabel("Seleccionouse:");
+		lblNewLabel.setBounds(10, 88, 80, 14);
+		panelSecundario.add(lblNewLabel);
+
+		
 	}
 
 	public String getNombreLetra() {
@@ -184,6 +248,12 @@ public class VentanaWindowBuilder extends JFrame {
 
 	public String getTextField() {
 		return nombre.getText();
+	}
+	
+	public void setTextField(String nome) {
+		
+		nombre.setText(nome);
+		
 	}
 
 	public String getPasswordField() {
@@ -213,6 +283,10 @@ public class VentanaWindowBuilder extends JFrame {
 		comboBox.addActionListener(c);
 		slider.addChangeListener(c);
 		spinner.addChangeListener(c);
+		opcionBorrar.addActionListener(c);
+		opcionSalir.addActionListener(c);
+		opcionCambiarNome.addActionListener(c);
+		lista.addListSelectionListener(c);
 
 	}
 
@@ -275,7 +349,24 @@ public class VentanaWindowBuilder extends JFrame {
 		spinner.setValue(value);
 
 	}
+	
+	public String[] getListaMeses() {
+		
+		
+		int tamano = lista.getSelectedValuesList().size();
+		String[] listaMeses = new String[tamano];
+		listaMeses = (String[]) lista.getSelectedValuesList().toArray();
 
+		
+		return null;
+		
+	}
+
+	public void setTextoLabelSecundario(String texto) {
+		
+		lblNewLabel.setText(texto);
+		
+	}
 	public void arrinca() {
 		this.setVisible(true);
 

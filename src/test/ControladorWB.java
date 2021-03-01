@@ -16,6 +16,7 @@ import java.awt.Color;
 
 
 public class ControladorWB implements ActionListener, ChangeListener, ListSelectionListener {
+	
 	private VentanaWindowBuilder vista;
 	
 	public ControladorWB(VentanaWindowBuilder vista) {

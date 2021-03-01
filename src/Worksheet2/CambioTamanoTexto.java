@@ -11,6 +11,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.JSlider;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class CambioTamanoTexto extends JFrame implements ChangeListener{
 	
@@ -51,12 +52,13 @@ public class CambioTamanoTexto extends JFrame implements ChangeListener{
 		slider.setMinorTickSpacing(2);
 		slider.setPaintTicks(true);
 		slider.setBounds(21, 11, 380, 45);
+		slider.addChangeListener(this);
 		contentPane.add(slider);
 		
 		label = new JLabel("En un lugar de La Mancha cuyo nombre no quiero recordar...");
 		label.setBounds(21, 92, 380, 112);
 		contentPane.add(label);
-
+		
 	}
 
 	@Override
@@ -67,6 +69,8 @@ public class CambioTamanoTexto extends JFrame implements ChangeListener{
 		}
 		
 	}
+	
+	
 	
 	public void setTamanoLetra(int tamano) {
 
@@ -80,5 +84,4 @@ public class CambioTamanoTexto extends JFrame implements ChangeListener{
 		return slider.getValue();
 
 	}
-
 }
